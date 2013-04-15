@@ -1,0 +1,20 @@
+<!doctype html>
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  %= stylesheet '/css/h5bp.css'
+  %= stylesheet "http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,800|Alfa+Slab+One|Patua+One"
+  %= javascript '/js/libs/modernizr.js'
+</head>
+<body>
+
+  <%= content %>
+  %= javascript '/js/plugins.js'
+  %= javascript '/js/script.js'
+    %= javascript 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+
+</body>
+</html>

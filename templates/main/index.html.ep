@@ -1,0 +1,5 @@
+% title 'Cirrus Cloud';
+% layout 'default';
+
+%= link_to ImageUpload => 'upload/images'
+<p>

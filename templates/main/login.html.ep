@@ -1,0 +1,8 @@
+% title 'Login / Register';
+% layout 'default';
+
+<form method="post" action="/loggedon">
+ Username: <input type="text" name='username' />
+ Password: <input type="text" name='password' />
+ <input type="submit" value="Log in" />
+</form>

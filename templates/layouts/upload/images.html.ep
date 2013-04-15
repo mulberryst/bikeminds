@@ -1,0 +1,37 @@
+<!doctype html>
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  %= stylesheet '/css/h5bp.css'
+  %= stylesheet '/css/styles.css'
+  %= stylesheet "http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,800|Alfa+Slab+One|Patua+One"
+  %= javascript '/js/libs/modernizr.js'
+</head>
+<body>
+
+  <%= content %>
+  %= javascript '/js/plugins.js'
+  %= javascript '/js/script.js'
+    %= javascript 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'
+    %= javascript '/js/libs/jquery.base64.min.js'
+    %= javascript '/js/libs/jQueryRotateCompressed.js'
+    %= javascript '/js/libs/LZWEncoder.js'
+    %= javascript '/js/libs/NeuQuant.js'
+    %= javascript '/js/libs/GIFEncoder.js'
+    %= javascript '/js/libs/filereader.js'
+    %= javascript '/js/libs/modernizr.js'
+    %= javascript '/js/libs/html5slider.js'
+    %= javascript '/js/libs/underscore-min.js'
+    %= javascript '/js/libs/backbone-min.js'
+    %= javascript '/js/libs/backbone.nopersistence.js'
+    %= javascript '/js/share.js'
+    %= javascript '/js/mfanimated.js'
+    %= javascript '/js/models.js'
+    %= javascript '/js/ui.js'
+  %= javascript '/js/startup.js'
+
+</body>
+</html>
