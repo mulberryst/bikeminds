@@ -6,9 +6,23 @@ use Data::Dumper;
 use URI::Escape;
 use MD5;
 use Try::Tiny;
+use MIME::Base64 qw/encode_base64 decode_base64 decode_base64url encode_base64url/;
+use URI;
+use Mango::BSON qw/:bson/;
+use DateTime;
 
 sub index {
   my $s = shift;
+  $s->render;
+}
+
+sub login {
+  my $s = shift;
+  
+  $s->app->log->debug("routed to login correctly");
+  foreach my $name ($s->req->param) {
+    $s->app->log->debug("$name => ".$s->req->param($name));
+  }
   $s->render;
 }
 
@@ -22,6 +36,17 @@ sub showImages {
       $s->app->log->debug("delay: $delay @docs");
 #      $s->app->log->debug(Dumper(\@docs));
 #      $s->stash(images => [qw(1 2 3 4 5)]);
+#
+#      xlate BSON
+#
+      foreach my $img (@docs) {
+        if ($img->{src} !~ /^data/) {
+          my $u = URI->new("data:");
+          $u->media_type($img->{type});
+          $u->data($img->{src});
+          $img->{src} = $u;
+        }
+      }
       $s->stash(images => \@docs);
       $s->render;
       $return = 1;
@@ -52,13 +77,38 @@ sub upload {
   } else {
     if ($s->stash('format') eq 'json') {
       $s->app->log->debug("format is json");
-      my $data = uri_unescape($s->req->body);
-      my ($name, $size, $src) = ($s->req->param('name'), $s->req->param('size'), $s->req->param('src'));
 #   
 #      $s->app->log->debug($data);
+      my $src = $s->req->param('src');
+
+      #  strip MIME header to save only binary image
+      #  as base64 is roughly 30% bigger
+      #
+      $src =~ s/^data:(.*?)base64,//;
+      my $type = $1;
+      $s->app->log->debug("got image type $type");
       my $md5 = MD5->hexhash($src);
+      my %image = (
+#  ensure uniqueness of image db
+        _id => MD5->hexhash($src),
+#        md5 => MD5->hexhash($src),
+        src => decode_base64url($src),
+        uploadDate => DateTime->now,
+        type => $type,
+      );
+
+      #  store everything the model sends
+      #
+      foreach my $name ($s->req->param) {
+        unless (exists $image{$name}) {
+          $image{$name} = $s->req->param($name);
+#          $s->app->log->debug("$name => $image{$name}");
+        }
+      }
       try {
-        $s->mango->db->collection('images')->insert({ _id => $md5, src => $src, size => $size, name => $name, len => length($src) });
+        $s->mango->db->collection('images')->insert(
+          \%image
+        );
       } finally {
         if (@_) {
           if ($_[0] eq 'E11000') {

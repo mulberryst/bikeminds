@@ -1,5 +1,12 @@
 % title 'Cirrus Cloud';
 % layout 'default';
 
-%= link_to ImageUpload => 'upload/images'
+<ul>
+<li>
+  <%= link_to url_for('upload/images') => begin%>ImageUpload <% end %>
+</li>
+<li>
+  <%= link_to url_for('images') => begin%>View Images <% end %>
+</li>
+</ul>
 <p>

@@ -83,6 +83,9 @@ var MFAApp = Backbone.Model.extend({
         type: 'POST',
         data: {
           size: img.get('originalImage').nfo.size,
+          prettySize: img.get('originalImage').nfo.extra.prettySize,
+          modifiedDate: img.get('originalImage').nfo.lastModifiedDate,
+          type: img.get('originalImage').nfo.type,
           name: img.get('originalImage').nfo.name,
           src: img.get('originalImage').src,
         },

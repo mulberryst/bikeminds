@@ -1,5 +1,6 @@
 % title 'Upload Images';
 % layout 'upload/images';
+%= include 'header';
   <div id="container">
 
         <div id="main" role="main">
